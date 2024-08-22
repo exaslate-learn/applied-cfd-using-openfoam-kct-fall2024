@@ -7,3 +7,5 @@
 
 * onedrive link to upload larger files from your work as part of this course
   * https://1drv.ms/f/s!AqT2YEB97-1RgepJWzoroGDpMDsfQw?e=7Yi2X5
+ 
+* Course videos: https://www.youtube.com/playlist?list=PLF6_5RI6ENIlppYt2yvkNL0q7OBQwEJdY
