@@ -1,1 +1,0 @@
-EXE = $(FOAM_RUN)/applied-cfd-using-kct-fall2024/solvers/bin/diffusionSolver

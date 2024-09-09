@@ -20,3 +20,6 @@
 *.avi
 *.mp4
 *.mov
+linux64Gcc*/
+*.dep
+*.o
