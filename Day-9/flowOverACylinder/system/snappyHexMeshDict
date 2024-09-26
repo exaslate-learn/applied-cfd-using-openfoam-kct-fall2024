@@ -1,0 +1,112 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2306                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      snappyHexMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+#includeEtc "caseDicts/mesh/generation/snappyHexMeshDict.cfg"
+
+castellatedMesh off;
+snap            off;
+addLayers       off;
+
+geometry
+{
+    cylinder.obj
+    {
+        type closedTriSurfaceMesh;
+        name cylinder;
+    }
+}
+
+castellatedMeshControls
+{
+    maxLocalCells 100000;
+    maxGlobalCells 2000000;
+    minRefinementCells 10;
+    maxLoadUnbalance 0.10;
+    nCellsBetweenLevels 3;
+    refinementSurfaces
+    {
+        cylinder
+        {
+            level (0 0);
+            patchInfo { type wall; }
+        }
+    }
+
+    refinementRegions
+    {
+    }
+
+    locationInMesh (0 0 -0.1);
+    locationOutMesh (0 0 0.05);
+
+    // Explicit feature edge refinement
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    // Specifies a level for any cell intersected by its edges.
+    // This is a featureEdgeMesh, read from constant/triSurface for now.
+    features
+    (
+        {
+            file "cylinder.eMesh";
+            level 0;
+        }
+    );
+
+    // Resolve sharp angles
+    resolveFeatureAngle 30;
+}
+
+snapControls
+{
+    explicitFeatureSnap    true;
+    implicitFeatureSnap    false;
+}
+
+addLayersControls
+{
+    layers
+    {
+    }
+
+    relativeSizes       true;
+    expansionRatio      1.2;
+    finalLayerThickness 0.5;
+    minThickness        1e-3;
+}
+
+// Generic mesh quality settings. At any undoable phase these determine
+// where to undo.
+meshQualityControls
+{
+    #include "meshQualityDict"
+
+
+    // Advanced
+
+    //- Number of error distribution iterations
+    nSmoothScale 4;
+    //- Amount to scale back displacement at error points
+    errorReduction 0.75;
+}
+
+writeFlags
+(
+);
+
+mergeTolerance 1e-6;
+
+
+// ************************************************************************* //
